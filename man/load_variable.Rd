@@ -9,7 +9,7 @@ load_variable(file, variable_name)
 \arguments{
 \item{file}{A string containing the path to a file.}
 
-\item{raw_variable_name}{A string containing the name of the variable.}
+\item{variable_name}{A string containing the name of the variable.}
 }
 \value{
 A vector with the same number of rows as the file containing the variable values
