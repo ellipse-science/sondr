@@ -22,5 +22,5 @@ load_variable <- function(file, variable_name){
   } else if (ext == "Sav"){
     data <- haven::read_sav(file)
   }
-  return(data[[variable_name]])
+  return(as.vector(data[[variable_name]]))
 }
