@@ -169,7 +169,6 @@ load_variable <- function(file, variable_name){
 #'
 #' @export
 #'
-#' @importFrom base paste0
 generate_survey_ids <- function(n_respondents, source_id){
   survey_ids <- paste0(source_id, ".", 1:n_respondents)
   return(survey_ids)
