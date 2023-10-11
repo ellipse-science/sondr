@@ -19,7 +19,7 @@ load_variable <- function(file, variable_name){
     data <- read.csv(file, encoding = "UTF-8")
   } else if (ext == "xlsx"){
     data <- readxl::read_xlsx(file)
-  } else if (ext == "sav"){
+  } else if (ext == "Sav"){
     data <- haven::read_sav(file)
   }
   return(data[[variable_name]])
