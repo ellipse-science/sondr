@@ -16,7 +16,7 @@ load_variable <- function(file, variable_name){
   ext <- tools::file_ext(file)
   ## load data according to extension
   if (ext == "csv"){
-    data <- read.csv(file, encoding = "UTF-8")
+    data <- utils::read.csv(file, encoding = "UTF-8")
   } else if (ext == "xlsx"){
     data <- readxl::read_xlsx(file)
   } else if (ext == "Sav"){
