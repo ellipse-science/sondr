@@ -181,8 +181,8 @@ generate_survey_ids <- function(n_respondents, source_id){
 #' It replaces values in the main vector with corresponding values from the updates vector
 #' where the names are the same.
 #'
-#' @param main A vector containing a large number of elements.
-#' @param updates A vector containing fewer elements than \code{main} but with matching names.
+#' @param main A vector to update.
+#' @param updates A vector containing the updates to main.
 #'
 #' @return The updated \code{main} vector with values from the \code{updates} vector where names match.
 #'
