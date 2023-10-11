@@ -17,9 +17,9 @@
 #' }
 #'
 #' @seealso
-#' \code{\link[utils]{read.csv}}, \code{\link[readxl]{read_xlsx}}, \code{\link[haven]{read_sav}} for the functions used to read data based on file type.
+#' \code{\link[utils]{read.csv2}}, \code{\link[readxl]{read_xlsx}}, \code{\link[haven]{read_sav}} for the functions used to read data based on file type.
 #'
-#' @importFrom utils read.csv
+#' @importFrom utils read.csv2
 #' @importFrom readxl read_xlsx
 #' @importFrom haven read_sav
 #'
@@ -30,7 +30,7 @@ read_survey <- function(file){
   ext <- tools::file_ext(file)
   ## load data according to extension
   if (ext == "csv"){
-    data <- utils::read.csv(file, encoding = "UTF-8")
+    data <- utils::read.csv2(file, encoding = "UTF-8")
   } else if (ext == "xlsx"){
     data <- readxl::read_xlsx(file)
   } else if (ext == "Sav"){
