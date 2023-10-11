@@ -174,3 +174,26 @@ generate_survey_ids <- function(n_respondents, source_id){
   return(survey_ids)
 }
 
+
+#' Update a Main Vector with Updates by Matching Names
+#'
+#' This function updates a main vector with values from an updates vector by matching names.
+#' It replaces values in the main vector with corresponding values from the updates vector
+#' where the names are the same.
+#'
+#' @param main A vector containing a large number of elements.
+#' @param updates A vector containing fewer elements than \code{main} but with matching names.
+#'
+#' @return The updated \code{main} vector with values from the \code{updates} vector where names match.
+#'
+#' @examples
+#' main <- c(a = 1, b = 2, c = 3, d = 4)
+#' updates <- c(b = 22, c = 33)
+#' updated_vector <- match_and_update(main, updates)
+#'
+#' @export
+#'
+match_and_update <- function(main, updates) {
+  main[names(main) %in% names(updates)] <- updates[names(main) %in% names(updates)]
+  return(main)
+}
