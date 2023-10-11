@@ -4,7 +4,7 @@
 #'containing the variable values.
 #'
 #' @param file A string containing the path to a file.
-#' @param raw_variable_name A string containing the name of the variable.
+#' @param variable_name A string containing the name of the variable.
 #'
 #' @return A vector with the same number of rows as the file containing the variable values
 #' @export
@@ -22,5 +22,5 @@ load_variable <- function(file, variable_name){
   } else if (ext == "sav"){
     data <- haven::read_sav(file)
   }
-  return(data)
+  return(data[[variable_name]])
 }
