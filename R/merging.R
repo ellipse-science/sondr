@@ -148,3 +148,30 @@ load_variable <- function(file, variable_name){
   data <- read_survey(file)
   return(as.vector(data[[variable_name]]))
 }
+
+
+#' Generate Survey IDs
+#'
+#' This function generates survey IDs by combining a source ID with a sequence of numbers.
+#'
+#' @param n_respondents The number of respondents, i.e., the length of the sequence.
+#' @param source_id A character string representing the source ID (survey).
+#'
+#' @return A character vector containing the generated survey IDs.
+#'
+#' @details
+#' This function generates survey IDs by combining a source ID with a sequence of numbers.
+#' For example, if the source ID is "ces65" and n_respondents is 3, the function will return
+#' the vector "ces65.1", "ces65.2", "ces65.3".
+#'
+#' @examples
+#' generate_survey_ids(n_respondents = 5, source_id = "ces65")
+#'
+#' @export
+#'
+#' @importFrom base paste0
+generate_survey_ids <- function(n_respondents, source_id){
+  survey_ids <- paste0(source_id, ".", 1:n_respondents)
+  return(survey_ids)
+}
+
