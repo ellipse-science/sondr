@@ -27,5 +27,5 @@ Ensure that the appropriate libraries (readxl, haven) are installed before using
 
 }
 \seealso{
-\code{\link[utils]{read.csv}}, \code{\link[readxl]{read_xlsx}}, \code{\link[haven]{read_sav}} for the functions used to read data based on file type.
+\code{\link[utils]{read.csv2}}, \code{\link[readxl]{read_xlsx}}, \code{\link[haven]{read_sav}} for the functions used to read data based on file type.
 }

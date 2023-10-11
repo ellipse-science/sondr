@@ -20,8 +20,9 @@
 #' The function proceeds through a series of attempts to read the CSV file:
 #'   1. Standard reading with `read.csv`.
 #'   2. Reading without headers using `read.csv`.
-#'   3. Utilizing `readr::read_csv`.
-#'   4. Reading with `read.table` and `fill = TRUE`.
+#'   3. Using utils::read.csv2
+#'   4. Utilizing `readr::read_csv`.
+#'   5. Reading with `read.table` and `fill = TRUE`.
 #' If all attempts fail, the function stops and returns an error message.
 #'
 #' @section Handling Issues:
@@ -38,7 +39,7 @@
 #'
 #' @export
 #'
-#' @importFrom readr read_csv utils
+#' @importFrom readr read_csv
 read_any_csv <- function(file_path, ...) {
   # Ensure that the file exists
   if (!file.exists(file_path)) {
@@ -119,7 +120,7 @@ read_survey <- function(file){
   ext <- tools::file_ext(file)
   ## load data according to extension
   if (ext == "csv"){
-    data <- utils::read.csv2(file, encoding = "UTF-8")
+    data <- read_any_csv(file, encoding = "UTF-8")
   } else if (ext == "xlsx"){
     data <- readxl::read_xlsx(file)
   } else if (ext == "Sav"){
