@@ -143,7 +143,12 @@ read_survey <- function(file){
 #' @export
 #'
 #' @examples
-#' load_variable(file = "data.csv", variable_name = "var332") ## should return the vector containing the values of var332.
+#' # Create a temporary CSV file with example data
+#' temp_file <- tempfile(fileext = ".csv")
+#' writeLines(c("var1,var2,var3", "1,2,3", "4,5,6", "7,8,9"), temp_file)
+#'
+#' # Load the variable 'var2' from the temporary CSV file
+#' load_variable(file = temp_file, variable_name = "var2")
 load_variable <- function(file, variable_name){
   data <- read_survey(file)
   return(as.vector(data[[variable_name]]))
@@ -194,6 +199,9 @@ generate_survey_ids <- function(n_respondents, source_id){
 #' @export
 #'
 match_and_update <- function(main, updates) {
-  main[names(main) %in% names(updates)] <- updates[names(main) %in% names(updates)]
+  ## Find elements who need to be updated
+  need_update <- names(main)[names(main) %in% names(updates)]
+  ## Update the values of these elements
+  main[need_update] <- updates[need_update]
   return(main)
 }

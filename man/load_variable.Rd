@@ -19,5 +19,10 @@ This function takes a file and a variable name and returns the vector
 containing the variable values.
 }
 \examples{
-load_variable(file = "data.csv", variable_name = "var332") ## should return the vector containing the values of var332.
+# Create a temporary CSV file with example data
+temp_file <- tempfile(fileext = ".csv")
+writeLines(c("var1,var2,var3", "1,2,3", "4,5,6", "7,8,9"), temp_file)
+
+# Load the variable 'var2' from the temporary CSV file
+load_variable(file = temp_file, variable_name = "var2")
 }

@@ -7,9 +7,9 @@
 match_and_update(main, updates)
 }
 \arguments{
-\item{main}{A vector containing a large number of elements.}
+\item{main}{A vector to update.}
 
-\item{updates}{A vector containing fewer elements than \code{main} but with matching names.}
+\item{updates}{A vector containing the updates to main.}
 }
 \value{
 The updated \code{main} vector with values from the \code{updates} vector where names match.

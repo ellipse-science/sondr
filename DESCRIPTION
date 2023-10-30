@@ -1,7 +1,7 @@
 Package: sondr
 Type: Package
 Title: Tools for Survey Data Management and Analysis
-Version: 0.1.0
+Version: 0.1.1
 Author: CLESSN, Ellipse, CAPP
 Maintainer: Hubert Cadieux <hubert.cadieux.1@ulaval.ca>
 Description: Provides a collection of functions designed to streamline the process of cleaning, merging, and analyzing survey data.
@@ -11,7 +11,10 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     readxl,
+    readr,
     haven,
     utils,
     tools
+Suggests:
+    testthat
 RoxygenNote: 7.2.3
