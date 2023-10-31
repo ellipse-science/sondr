@@ -57,6 +57,10 @@ read_any_csv <- function(file_path, ...) {
   try({
     message("Trying to read without headers using read.csv.")
     data <- utils::read.csv(file_path, header = FALSE, ...)
+    # Set the first row as column names
+    colnames(data) <- as.character(data[1, ])
+    # Remove the first row
+    data <- data[-1, ]
     return(data)
   }, silent = TRUE)
 
@@ -128,7 +132,6 @@ read_survey <- function(file){
   }
   return(data)
 }
-
 
 
 #' Load variable from file
