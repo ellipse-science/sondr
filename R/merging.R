@@ -209,3 +209,20 @@ match_and_update <- function(main, updates) {
   main[need_update] <- updates[need_update]
   return(main)
 }
+
+#' Extract elements with names starting with a specific prefix
+#'
+#' This function extracts elements from a vector whose names start with a given prefix.
+#'
+#' @param vec A named vector.
+#' @param prefix A string representing the prefix to match.
+#' @return A named vector containing the elements whose names start with the given prefix.
+#' @export
+#' @examples
+#' vec <- c(foo1 = 1, foo2 = 2, bar1 = 3, bar2 = 4)
+#' extract_elements_with_prefix(vec, "foo")
+extract_elements_with_prefix <- function(vec, prefix) {
+  indices <- grep(paste0("^", prefix), names(vec))
+  elements <- vec[indices]
+  return(elements)
+}
