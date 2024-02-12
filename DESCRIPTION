@@ -14,7 +14,8 @@ Imports:
     readr,
     haven,
     utils,
-    tools
+    tools,
+    psych
 Suggests:
     testthat
 RoxygenNote: 7.2.3
