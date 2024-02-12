@@ -38,3 +38,43 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
   }
   return(output)
 }
+#' Invert the Order of Unique Values in a Vector
+#'
+#' This function inverts the order of unique numerical values in a vector. For each unique value in the input vector, 
+#' it assigns a new value that maintains the original spacing but in reverse order. 
+#' It's useful for transforming data in a way that preserves the relative magnitude of values while reversing their order.
+#'
+#' @param vec_col A numeric vector containing the values to be inverted. 
+#'
+#' @return A numeric vector of the same length as `vec_col`, with the order of unique values inverted. 
+#'         The spacing between different values is preserved in the inverted order.
+#'
+#' @examples
+#' finverser(c(1, 2, 3, 2, 1)) # Returns c(3, 2, 1, 2, 3)
+#' finverser(c(10, 20, 30))    # Returns c(30, 20, 10)
+#'
+#' @export
+finverser <- function(vec_col){
+  # Extract unique and non-NA values from the input vector
+  unique_col <- unique(vec_col)
+  unique_col <- unique_col[!is.na(unique_col)]
+  
+  # Determine the number of unique values and the maximum value for later adjustment
+  n <- length(unique_col)
+  max <- max(vec_col, na.rm = TRUE)
+  
+  # Sort the unique values in ascending order and then reverse that order
+  ord <- sort(as.vector(unique_col))
+  rev <- rev(ord)
+  
+  # Replace each value in the input vector with its inverted counterpart
+  for (i in 1:n){
+    vec_col[vec_col == ord[i]] <- max + rev[i] 
+  }
+  
+  # Adjust the inverted values to maintain the original spacing but in reverse order
+  vec_col <- vec_col - max
+  
+  return(vec_col)
+}
+
