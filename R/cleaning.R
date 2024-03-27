@@ -77,4 +77,60 @@ finverser <- function(vec_col){
   
   return(vec_col)
 }
-
+#' Convert .sav Data to a Codebook
+#'
+#' This function takes a data frame (typically loaded from a .sav file) and generates
+#' a codebook. The codebook includes the variable names, associated questions (if available),
+#' and answer options for each variable. It's particularly useful for survey data where
+#' each variable might have a set of predefined answer choices.
+#'
+#' @param data A data frame where each column represents a variable from the .sav file.
+#'             It's expected that this data frame has attributes for 'label' (to use as
+#'             question text) and 'labels' (to use as answer choices) for each variable.
+#'
+#' @return A data frame with columns for each variable name, the associated question text
+#'         (or `NA` if not available), and a concatenated string of answer choices (or `NA`
+#'         if not applicable). Each row corresponds to a variable from the input data frame.
+#'
+#' @examples
+#' # Load a .sav file (example file path)
+#' # data <- haven::read_sav("path/to/your/datafile.sav")
+#'
+#' # Generate the codebook
+#' # codebook <- sav_to_codebook(data)
+#'
+#' @export
+sav_to_codebook <- function(data) {
+  var_names <- names(data)
+  
+  # Initialize the codebook data frame
+  codebook <- data.frame(variable_name = var_names,
+                         question = rep(NA, length(var_names)), 
+                         answers = rep(NA, length(var_names)), 
+                         stringsAsFactors = FALSE)
+  
+  # Loop through each variable in the dataset
+  for (i in 1:length(var_names)) {
+    # Extract the question label, use NA or a placeholder if not available
+    question <- attr(data[[var_names[i]]], "label")
+    if (is.null(question) || length(question) == 0) {
+      question <- NA  # Or use something like "No label available"
+    } else if (length(question) > 1) {
+      question <- question[1]  # Take only the first item if there are multiple
+    }
+    
+    # Extract answer choices and concatenate them into a single string
+    answer_choices <- attr(data[[var_names[i]]], "labels")
+    if (!is.null(answer_choices) && length(answer_choices) > 0) {
+      answers_str <- paste(names(answer_choices), answer_choices, sep = ": ", collapse = "; ")
+    } else {
+      answers_str <- NA  # Use NA for variables without answer choices
+    }
+    
+    # Update the codebook data frame
+    codebook$question[i] <- question
+    codebook$answers[i] <- answers_str
+  }
+  
+  return(codebook)
+}
