@@ -15,7 +15,9 @@ Imports:
     haven,
     utils,
     tools,
-    psych
+    psych,
+    ggplot2,
+    dplyr
 Suggests:
     testthat
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
