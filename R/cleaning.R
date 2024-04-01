@@ -134,3 +134,41 @@ sav_to_codebook <- function(data) {
   
   return(codebook)
 }
+#' Converts a codebook to a Markdown catalog
+#' 
+#' This function takes a codebook (likely in a structured data format) 
+#' and generates a Markdown-formatted catalog of questions and answer options. 
+#' The catalog is designed to be human-readable and easily referenceable.
+#'
+#' @param data A data frame (or similar structure) containing codebook information. 
+#'   It should have at least two columns: "question" and "answers".
+#' @param filename The name of the Markdown file to be created.
+#' @param title The title to be used for the Markdown catalog.
+#'
+#' @return None. This function produces a Markdown file as a side effect.
+#'
+#' @examples 
+#' # Assuming 'my_codebook' is a data frame with "question" and "answers" columns
+#' codebook_to_catalog(my_codebook, "codebook_catalog.md", "Survey Codebook") 
+codebook_to_catalog <- function(data, filename, title) {
+  # Open the markdown file for writing
+  con <- file(filename, "w")
+  
+  # Write questions and answers to the markdown file
+  cat("# ",paste0(title), "\n", file = con)
+  
+  for (i in 1:nrow(data)) {
+    cat(paste0("\n", i, ". ", data[i, "question"], "\n"), file = con)
+    
+    # Split the answers by semicolons
+    answers <- unlist(strsplit(as.character(data[i, "answers"]), ";"))
+    
+    # Write each answer as an itemized list
+    for (answer in answers) {
+      cat("     - ", answer, "\n", file = con)
+    }
+  }
+  
+  # Close the markdown file
+  close(con)
+}
