@@ -134,22 +134,35 @@ sav_to_codebook <- function(data) {
   
   return(codebook)
 }
-#' Converts a codebook to a Markdown catalog
-#' 
-#' This function takes a codebook (likely in a structured data format) 
-#' and generates a Markdown-formatted catalog of questions and answer options. 
-#' The catalog is designed to be human-readable and easily referenceable.
+#' Convert Data to Markdown Catalog
 #'
-#' @param data A data frame (or similar structure) containing codebook information. 
-#'   It should have at least two columns: "question" and "answers".
-#' @param filename The name of the Markdown file to be created.
-#' @param title The title to be used for the Markdown catalog.
+#' This function converts data containing questions and answers into a Markdown catalog.
 #'
-#' @return None. This function produces a Markdown file as a side effect.
+#' @param data A data frame containing questions and answers.
+#' @param filename The filename of the Markdown file to be created.
+#' @param title The title of the Markdown catalog.
 #'
-#' @examples 
-#' # Assuming 'my_codebook' is a data frame with "question" and "answers" columns
-#' codebook_to_catalog(my_codebook, "codebook_catalog.md", "Survey Codebook") 
+#' @details This function takes a data frame where each row represents a question with
+#' associated answers and converts it into a Markdown file with a specified title.
+#' Each question is numbered and listed along with its associated answers.
+#'
+#' @examples
+#' # Sample data frame
+#' data <- data.frame(
+#'   question = c("What is your favorite color?", "What is your favorite food?"),
+#'   answers = c("Red;Blue;Green", "Pizza;Sushi;Burger")
+#' )
+#'
+#' # Convert data to Markdown catalog
+#' codebook_to_catalog(data, "catalog.md", "Survey Catalog")
+#'
+#' @export
+#'
+#' @seealso Other data conversion functions: \code{\link{read_survey}}
+#'
+#'
+#' @keywords file manipulation
+#' @keywords internal
 codebook_to_catalog <- function(data, filename, title) {
   # Open the markdown file for writing
   con <- file(filename, "w")

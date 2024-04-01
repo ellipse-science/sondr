@@ -2,27 +2,39 @@
 % Please edit documentation in R/cleaning.R
 \name{codebook_to_catalog}
 \alias{codebook_to_catalog}
-\title{Converts a codebook to a Markdown catalog}
+\title{Convert Data to Markdown Catalog}
 \usage{
 codebook_to_catalog(data, filename, title)
 }
 \arguments{
-\item{data}{A data frame (or similar structure) containing codebook information. 
-It should have at least two columns: "question" and "answers".}
+\item{data}{A data frame containing questions and answers.}
 
-\item{filename}{The name of the Markdown file to be created.}
+\item{filename}{The filename of the Markdown file to be created.}
 
-\item{title}{The title to be used for the Markdown catalog.}
-}
-\value{
-None. This function produces a Markdown file as a side effect.
+\item{title}{The title of the Markdown catalog.}
 }
 \description{
-This function takes a codebook (likely in a structured data format) 
-and generates a Markdown-formatted catalog of questions and answer options. 
-The catalog is designed to be human-readable and easily referenceable.
+This function converts data containing questions and answers into a Markdown catalog.
+}
+\details{
+This function takes a data frame where each row represents a question with
+associated answers and converts it into a Markdown file with a specified title.
+Each question is numbered and listed along with its associated answers.
 }
 \examples{
-# Assuming 'my_codebook' is a data frame with "question" and "answers" columns
-codebook_to_catalog(my_codebook, "codebook_catalog.md", "Survey Codebook") 
+# Sample data frame
+data <- data.frame(
+  question = c("What is your favorite color?", "What is your favorite food?"),
+  answers = c("Red;Blue;Green", "Pizza;Sushi;Burger")
+)
+
+# Convert data to Markdown catalog
+codebook_to_catalog(data, "catalog.md", "Survey Catalog")
+
 }
+\seealso{
+Other data conversion functions: \code{\link{read_survey}}
+}
+\keyword{file}
+\keyword{internal}
+\keyword{manipulation}
