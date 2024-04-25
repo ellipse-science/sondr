@@ -38,3 +38,33 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
   }
   return(output)
 }
+
+
+#' Clean Likert Numeric Vector
+#'
+#' Transforms raw Likert scale responses into a normalized numeric vector.
+#' The transformation scales the data to a 0-1 range, based on the number of levels in the Likert scale.
+#' This is particularly useful when Likert scale responses need to be treated as continuous variables
+#' for statistical analysis.
+#'
+#' @param raw_vector A numeric vector containing raw Likert scale responses.
+#' @return A numeric vector where each element is scaled to a 0-1 range.
+#' @examples
+#' # Example data
+#' raw_data <- c(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)
+#'
+#' # Clean the data using clean_likert_numeric_vector
+#' clean_data <- clean_likert_numeric_vector(raw_data)
+#' print(clean_data)
+#'
+#' # Applying it to a data frame column example
+#' data_clean$comp_sante_focus_attention_present <- clean_likert_numeric_vector(data_raw$autogestion_1)
+#'
+#' @export
+clean_likert_numeric_vector <- function(raw_vector){
+  clean_vector <- (raw_vector - 1) / (length(table(raw_vector)) - 1)
+  return(clean_vector)
+}
+
+
+
