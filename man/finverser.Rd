@@ -10,12 +10,12 @@ finverser(vec_col)
 \item{vec_col}{A numeric vector containing the values to be inverted.}
 }
 \value{
-A numeric vector of the same length as `vec_col`, with the order of unique values inverted. 
+A numeric vector of the same length as `vec_col`, with the order of unique values inverted.
         The spacing between different values is preserved in the inverted order.
 }
 \description{
-This function inverts the order of unique numerical values in a vector. For each unique value in the input vector, 
-it assigns a new value that maintains the original spacing but in reverse order. 
+This function inverts the order of unique numerical values in a vector. For each unique value in the input vector,
+it assigns a new value that maintains the original spacing but in reverse order.
 It's useful for transforming data in a way that preserves the relative magnitude of values while reversing their order.
 }
 \examples{
