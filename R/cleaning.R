@@ -66,6 +66,7 @@ clean_likert_numeric_vector <- function(raw_vector){
   return(clean_vector)
 }
 
+
 #' Invert the Order of Unique Values in a Vector
 #'
 #' This function inverts the order of unique numerical values in a vector. For each unique value in the input vector,
@@ -105,6 +106,8 @@ finverser <- function(vec_col){
 
   return(vec_col)
 }
+
+
 #' Convert .sav Data to a Codebook
 #'
 #' This function takes a data frame (typically loaded from a .sav file) and generates
@@ -162,6 +165,8 @@ sav_to_codebook <- function(data) {
 
   return(codebook)
 }
+
+
 #' Convert Data to Markdown Catalog
 #'
 #' This function converts data containing questions and answers into a Markdown catalog.
