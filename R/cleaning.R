@@ -38,7 +38,6 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
   }
   return(output)
 }
-<<<<<<< HEAD
 
 
 #' Clean Likert Numeric Vector
@@ -67,18 +66,15 @@ clean_likert_numeric_vector <- function(raw_vector){
   return(clean_vector)
 }
 
-
-
-=======
 #' Invert the Order of Unique Values in a Vector
 #'
-#' This function inverts the order of unique numerical values in a vector. For each unique value in the input vector, 
-#' it assigns a new value that maintains the original spacing but in reverse order. 
+#' This function inverts the order of unique numerical values in a vector. For each unique value in the input vector,
+#' it assigns a new value that maintains the original spacing but in reverse order.
 #' It's useful for transforming data in a way that preserves the relative magnitude of values while reversing their order.
 #'
-#' @param vec_col A numeric vector containing the values to be inverted. 
+#' @param vec_col A numeric vector containing the values to be inverted.
 #'
-#' @return A numeric vector of the same length as `vec_col`, with the order of unique values inverted. 
+#' @return A numeric vector of the same length as `vec_col`, with the order of unique values inverted.
 #'         The spacing between different values is preserved in the inverted order.
 #'
 #' @examples
@@ -90,23 +86,23 @@ finverser <- function(vec_col){
   # Extract unique and non-NA values from the input vector
   unique_col <- unique(vec_col)
   unique_col <- unique_col[!is.na(unique_col)]
-  
+
   # Determine the number of unique values and the maximum value for later adjustment
   n <- length(unique_col)
   max <- max(vec_col, na.rm = TRUE)
-  
+
   # Sort the unique values in ascending order and then reverse that order
   ord <- sort(as.vector(unique_col))
   rev <- rev(ord)
-  
+
   # Replace each value in the input vector with its inverted counterpart
   for (i in 1:n){
-    vec_col[vec_col == ord[i]] <- max + rev[i] 
+    vec_col[vec_col == ord[i]] <- max + rev[i]
   }
-  
+
   # Adjust the inverted values to maintain the original spacing but in reverse order
   vec_col <- vec_col - max
-  
+
   return(vec_col)
 }
 #' Convert .sav Data to a Codebook
@@ -134,13 +130,13 @@ finverser <- function(vec_col){
 #' @export
 sav_to_codebook <- function(data) {
   var_names <- names(data)
-  
+
   # Initialize the codebook data frame
   codebook <- data.frame(variable_name = var_names,
-                         question = rep(NA, length(var_names)), 
-                         answers = rep(NA, length(var_names)), 
+                         question = rep(NA, length(var_names)),
+                         answers = rep(NA, length(var_names)),
                          stringsAsFactors = FALSE)
-  
+
   # Loop through each variable in the dataset
   for (i in 1:length(var_names)) {
     # Extract the question label, use NA or a placeholder if not available
@@ -150,7 +146,7 @@ sav_to_codebook <- function(data) {
     } else if (length(question) > 1) {
       question <- question[1]  # Take only the first item if there are multiple
     }
-    
+
     # Extract answer choices and concatenate them into a single string
     answer_choices <- attr(data[[var_names[i]]], "labels")
     if (!is.null(answer_choices) && length(answer_choices) > 0) {
@@ -158,12 +154,12 @@ sav_to_codebook <- function(data) {
     } else {
       answers_str <- NA  # Use NA for variables without answer choices
     }
-    
+
     # Update the codebook data frame
     codebook$question[i] <- question
     codebook$answers[i] <- answers_str
   }
-  
+
   return(codebook)
 }
 #' Convert Data to Markdown Catalog
@@ -198,23 +194,22 @@ sav_to_codebook <- function(data) {
 codebook_to_catalog <- function(data, filename, title) {
   # Open the markdown file for writing
   con <- file(filename, "w")
-  
+
   # Write questions and answers to the markdown file
   cat("# ",paste0(title), "\n", file = con)
-  
+
   for (i in 1:nrow(data)) {
     cat(paste0("\n", i, ". ", data[i, "question"], "\n"), file = con)
-    
+
     # Split the answers by semicolons
     answers <- unlist(strsplit(as.character(data[i, "answers"]), ";"))
-    
+
     # Write each answer as an itemized list
     for (answer in answers) {
       cat("     - ", answer, "\n", file = con)
     }
   }
-  
+
   # Close the markdown file
   close(con)
 }
->>>>>>> 4e9cefd9407bfa8a09357abba121fb5a1f9ea281
