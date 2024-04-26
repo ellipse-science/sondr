@@ -63,3 +63,89 @@ topdown_fa <- function(df, nfactors = 1) {
   
   return(result)
 }
+#' Check and Report Missing Values in DataFrame Columns
+#'
+#' This function processes a DataFrame, typically sourced from a Qualtrics .sav file, to identify and quantify
+#' missing values across all columns. It specifically treats empty strings in text columns as NA, recalculates
+#' missing values, and then groups variables by their names minus numeric and text suffixes to calculate the
+#' count and percentage of missing data per group. It also generates a bar plot displaying the percentage of
+#' missing data for variable groups where the percentage is greater than zero.
+#'
+#' This function requires the package clessnize, which is not available on CRAN but can be installed from GitHub. To install clessnize, run:
+#' \code{devtools::install_github("clessn/clessnize")} 
+#' 
+#' @param data A DataFrame containing the data to be analyzed for missing values.
+#'
+#' @return A DataFrame with each variable group, the count of NAs, and the percentage of NAs.
+#' Additionally, a bar plot is displayed showing the percentage of missing data for each variable group
+#' with non-zero missing data.
+#'
+#' @importFrom dplyr select mutate across filter
+#' @importFrom stringr str_replace
+#' @importFrom ggplot2 ggplot aes geom_bar coord_flip
+#' @importFrom clessnize theme_clean_dark
+#' @importFrom stats setNames
+#' @export
+#'
+#' @examples
+#' data <- data.frame(
+#'   ID_1_TEXT = c("apple", "", "banana"),
+#'   Value_1 = c(1, 2, NA),
+#'   ID_2_TEXT = c("", "orange", "melon"),
+#'   Value_2 = c(3, 4, 5)
+#' )
+#' results <- check_na(data)
+#' print(results)
+#'
+check_na <- function(data) {
+  # Handle missing values for text columns
+  data_text_columns <- data %>%
+    select(ends_with("_TEXT")) %>% 
+    mutate(across(everything(), na_if, ""))
+
+  # Remove text columns from the original data
+  data <- data %>%
+    select(-ends_with("_TEXT"))
+
+  # Combine back the text data columns
+  data <- cbind(data, data_text_columns)
+
+  # Detect and group variable names by removing numeric and text suffixes
+  variable_groups <- names(data) %>%
+    str_replace("_\\d+(_TEXT)?$", "") %>%
+    unique()
+
+  # Create a data frame to store the results
+  data_na_results <- data.frame(variable = variable_groups, na_count = NA_integer_, na_percentage = NA_real_)
+
+  # Calculate NA counts and percentages for each group
+  data_na_results <- lapply(variable_groups, function(prefix) {
+    data_group <- select(data, starts_with(prefix))
+    total_rows <- nrow(data_group)
+
+    # Calculate the number of rows with at least one non-NA value
+    present_counts <- apply(data_group, 1, function(row) any(!is.na(row)))
+
+    # Summarize results
+    present_sum <- sum(present_counts)
+
+    c(na_count = total_rows - present_sum, na_percentage = 100 * (total_rows - present_sum) / total_rows)
+  }) %>% 
+    do.call(rbind.data.frame, .) %>%
+    setNames(c("na_count", "na_percentage")) %>%
+    cbind(variable = variable_groups)
+
+  # Create the plot
+  plot <- ggplot(data = filter(data_na_results, na_percentage > 0), aes(x = reorder(variable, na_percentage), y = na_percentage)) +
+    geom_bar(stat = "identity", fill = "#e923c8") +
+    coord_flip() +
+    clessnize::theme_clean_dark() +
+    labs(x = "Groupe de variable", y = "Pourcentage de données manquantes", 
+         title = "Pourcentage de données manquantes \npar groupe de variable")
+
+  # Print the plot explicitly
+  print(plot)
+
+  # Return only the data frame
+  return(data_na_results)
+}
