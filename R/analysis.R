@@ -82,7 +82,7 @@ topdown_fa <- function(df, nfactors = 1) {
 #'
 #' @importFrom dplyr select mutate across filter
 #' @importFrom stringr str_replace
-#' @importFrom ggplot2 ggplot aes geom_bar coord_flip
+#' @importFrom ggplot2 ggplot aes geom_bar coord_flip labs
 #' @importFrom clessnize theme_clean_dark
 #' @importFrom stats setNames
 #' @export

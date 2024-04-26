@@ -18,6 +18,7 @@ Imports:
     psych,
     ggplot2,
     dplyr,
+    stringr,
     clessnize
 Suggests:
     testthat
