@@ -97,7 +97,7 @@ topdown_fa <- function(df, nfactors = 1) {
 #' results <- check_na(data)
 #' print(results)
 #'
-check_na <- function(data) {
+qualtrics_na_counter <- function(data) {
   # Handle missing values for text columns
   data_text_columns <- data %>%
     select(ends_with("_TEXT")) %>% 
