@@ -151,3 +151,48 @@ qualtrics_na_counter <- function(data) {
 }
 
 
+#' Find Quantile Range for a Given Value
+#'
+#' This function calculates the range of quantiles that a given value covers in a specified vector.
+#' It determines the lowest and highest quantiles within which the value falls.
+#' The quantiles are computed based on the percentiles from 0% to 100%.
+#'
+#' @param x A numeric value for which the quantile range is to be found.
+#' @param vector A numeric vector representing the data within which to find the quantiles.
+#'
+#' @return A numeric vector of two elements where the first element is the lower bound of the quantile
+#'         range (inclusive) and the second element is the upper bound of the quantile range (inclusive).
+#'         The quantile bounds are returned as percentages (e.g., 0.20 for 20th percentile).
+#'
+#' @examples
+#' # Generate a random dataset
+#' set.seed(123)
+#' data <- runif(100, min = 0, max = 1000)
+#'
+#' # Find the quantile range for the value 300
+#' find_quantile_range(300, data)
+#'
+#' # Find the quantile range for the value 134
+#' find_quantile_range(134, data)
+#'
+#' @export
+find_quantile_range <- function(x, data) {
+  # Calculate the quantiles from 0% to 100% with a step of 1%
+  quantiles <- quantile(data, probs = seq(0, 1, by = 0.01))
+
+  # Determine the range of quantiles the value x covers
+  lower_bound <- max(which(quantiles <= x)) - 1
+  upper_bound <- min(which(quantiles >= x)) - 1
+
+  # Correcting the bounds if the range covers more than one quantile
+  if (lower_bound - upper_bound > 1) {
+    new_lower_bound <- upper_bound
+    new_upper_bound <- lower_bound
+    vector <- c(new_lower_bound, new_upper_bound) / 100
+  } else {
+    vector <- c(lower_bound, upper_bound) / 100
+  }
+
+  return(vector)
+}
+
