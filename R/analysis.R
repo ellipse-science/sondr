@@ -17,16 +17,16 @@ topdown_fa <- function(df, nfactors = 1) {
   if (!is.data.frame(df)) {
     stop("Error: Argument 'df' must be a dataframe")
   }
-  
+
   # Calculate Cronbach's alpha for reliability assessment
   cronbachAlpha <- round(psych::alpha(df)$total$raw_alpha, 2)
-  
+
   # Conduct factor analysis with the specified number of factors
   factAnalysis <- factanal(df, factors = nfactors)
   factorVarNames <- names(df)
   factorLoadings <- as.numeric(factAnalysis$loadings[, 1])
   factor1stEigen <- round(eigen(cor(df))$values[1], 2)
-  
+
   # Create a plot of factor loadings
   FAplot <- ggplot2::ggplot(data.frame(factorVarNames, factorLoadings), ggplot2::aes(x = factorVarNames, y = factorLoadings)) +
     ggplot2::coord_flip() +
@@ -38,12 +38,12 @@ topdown_fa <- function(df, nfactors = 1) {
     ggplot2::annotate("segment", x = 0.4, xend = 1.45, y = 1, yend = 1, colour = "black") +
     ggplot2::annotate("segment", x = 1.45, xend = 1.45, y = 1, yend = Inf, colour = "black") +
     ggplot2::scale_y_continuous(name = "\n Coefficients de saturation \n", limits = c(0, 1.55), breaks = seq(0, 1, by = 0.1), expand = c(0, 0)) +
-    ggplot2::xlab("\n") + 
+    ggplot2::xlab("\n") +
     ggplot2::theme_linedraw() +
-    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 15, margin = ggplot2::margin(r = 5, l = 3)), 
-                   axis.title.y = ggplot2::element_text(size = 15), 
+    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 15, margin = ggplot2::margin(r = 5, l = 3)),
+                   axis.title.y = ggplot2::element_text(size = 15),
                    axis.text.x = ggplot2::element_text(size = 15),
-                   axis.title.x = ggplot2::element_text(hjust = 0.3, vjust = -0.17, size = 20), 
+                   axis.title.x = ggplot2::element_text(hjust = 0.3, vjust = -0.17, size = 20),
                    panel.grid = ggplot2::element_blank())
 
   # Print the plot and additional information
@@ -60,7 +60,7 @@ topdown_fa <- function(df, nfactors = 1) {
     factorLoadings = factorLoadings,
     FAplot = FAplot
   )
-  
+
   return(result)
 }
 #' Check and Report Missing Values in DataFrame Columns
@@ -72,8 +72,8 @@ topdown_fa <- function(df, nfactors = 1) {
 #' missing data for variable groups where the percentage is greater than zero.
 #'
 #' This function requires the package clessnize, which is not available on CRAN but can be installed from GitHub. To install clessnize, run:
-#' \code{devtools::install_github("clessn/clessnize")} 
-#' 
+#' \code{devtools::install_github("clessn/clessnize")}
+#'
 #' @param data A DataFrame containing the data to be analyzed for missing values.
 #'
 #' @return A DataFrame with each variable group, the count of NAs, and the percentage of NAs.
@@ -100,7 +100,7 @@ topdown_fa <- function(df, nfactors = 1) {
 qualtrics_na_counter <- function(data) {
   # Handle missing values for text columns
   data_text_columns <- data %>%
-    select(ends_with("_TEXT")) %>% 
+    select(ends_with("_TEXT")) %>%
     mutate(across(everything(), na_if, ""))
 
   # Remove text columns from the original data
@@ -130,7 +130,7 @@ qualtrics_na_counter <- function(data) {
     present_sum <- sum(present_counts)
 
     c(na_count = total_rows - present_sum, na_percentage = 100 * (total_rows - present_sum) / total_rows)
-  }) %>% 
+  }) %>%
     do.call(rbind.data.frame, .) %>%
     setNames(c("na_count", "na_percentage")) %>%
     cbind(variable = variable_groups)
@@ -140,7 +140,7 @@ qualtrics_na_counter <- function(data) {
     geom_bar(stat = "identity", fill = "#e923c8") +
     coord_flip() +
     clessnize::theme_clean_dark() +
-    labs(x = "Groupe de variable", y = "Pourcentage de données manquantes", 
+    labs(x = "Groupe de variable", y = "Pourcentage de données manquantes",
          title = "Pourcentage de données manquantes \npar groupe de variable")
 
   # Print the plot explicitly
@@ -149,3 +149,5 @@ qualtrics_na_counter <- function(data) {
   # Return only the data frame
   return(data_na_results)
 }
+
+
