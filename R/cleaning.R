@@ -218,3 +218,28 @@ codebook_to_catalog <- function(data, filename, title) {
   # Close the markdown file
   close(con)
 }
+#' Min-Max Normalization
+#'
+#' This function performs min-max normalization on a numeric vector. 
+#' It scales the values to a range between 0 and 1.
+#'
+#' @param x A numeric vector to be normalized.
+#' @return A numeric vector with values scaled between 0 and 1.
+#' @examples
+#' vec <- c(1, 2, 3, 4, 5)
+#' minmaxNormalization(vec)
+#' # [1] 0.00 0.25 0.50 0.75 1.00
+#' @export
+minmaxNormalization <- function(x) {
+  if (length(x) == 0) {
+    stop("Input vector is empty")
+  }
+  min_val <- min(x, na.rm = TRUE)
+  max_val <- max(x, na.rm = TRUE)
+  
+  if (min_val == max_val) {
+    stop("Cannot normalize a vector with all identical values")
+  }
+  
+  return((x - min_val) / (max_val - min_val))
+}

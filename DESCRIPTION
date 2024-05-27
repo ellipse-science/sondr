@@ -19,7 +19,7 @@ Imports:
     ggplot2,
     dplyr,
     stringr,
-    clessnize
 Suggests:
-    testthat
+    testthat,
+    clessnize
 RoxygenNote: 7.3.1
