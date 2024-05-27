@@ -130,6 +130,10 @@ read_survey <- function(file){
     data <- readxl::read_xlsx(file)
   } else if (ext == "Sav"){
     data <- haven::read_sav(file)
+  } else if (ext %in% c("rds", "RDS")){
+    data <- readRDS(file)
+  } else {
+    stop("File extension not supported. Please provide a .csv, .xlsx, .Sav, or .rds file.")
   }
   return(data)
 }
