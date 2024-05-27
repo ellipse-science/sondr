@@ -230,7 +230,7 @@ codebook_to_catalog <- function(data, filename, title) {
 #' minmaxNormalization(vec)
 #' # [1] 0.00 0.25 0.50 0.75 1.00
 #' @export
-minmaxNormalization <- function(x) {
+min_max_normalization <- function(x) {
   if (length(x) == 0) {
     stop("Input vector is empty")
   }

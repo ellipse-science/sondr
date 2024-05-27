@@ -2,23 +2,23 @@
 % Please edit documentation in R/analysis.R
 \name{find_quantile_range}
 \alias{find_quantile_range}
-\title{Find Quantile Range for a Given Value}
+\title{Find Quantile Ranges for Given Values}
 \usage{
 find_quantile_range(x, data)
 }
 \arguments{
-\item{x}{A numeric value for which the quantile range is to be found.}
+\item{x}{A numeric vector of values for which the quantile ranges are to be found.}
 
-\item{vector}{A numeric vector representing the data within which to find the quantiles.}
+\item{data}{A numeric vector representing the dataset within which to find the quantiles.}
 }
 \value{
-A numeric vector of two elements where the first element is the lower bound of the quantile
-        range (inclusive) and the second element is the upper bound of the quantile range (inclusive).
-        The quantile bounds are returned as percentages (e.g., 0.20 for 20th percentile).
+A matrix where each row corresponds to a value in `x` and contains two elements:
+        the lower and upper bounds of the quantile range (inclusive).
+        The quantile bounds are returned as percentages (e.g., 0.20 for the 20th percentile).
 }
 \description{
-This function calculates the range of quantiles that a given value covers in a specified vector.
-It determines the lowest and highest quantiles within which the value falls.
+This function calculates the range of quantiles that each given value covers in a specified dataset.
+It determines the lowest and highest quantiles within which each value falls.
 The quantiles are computed based on the percentiles from 0% to 100%.
 }
 \examples{
@@ -26,10 +26,7 @@ The quantiles are computed based on the percentiles from 0% to 100%.
 set.seed(123)
 data <- runif(100, min = 0, max = 1000)
 
-# Find the quantile range for the value 300
-find_quantile_range(300, data)
-
-# Find the quantile range for the value 134
-find_quantile_range(134, data)
+# Find the quantile range for multiple values
+find_quantile_range(c(134, 300), data)
 
 }
