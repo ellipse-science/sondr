@@ -13,7 +13,7 @@
 #' @examples
 #' stratification_table(census_data, "ses_state", c("ses_gender", "ses_age_group", "ses_ownership"), "weight")
 stratification_table <- function(data, strata_level = "ses_state", strata_vars, weight_var = "weight") {
-  stratified_table <- data %>%
+  stratified_table <- data |> 
     tidyr::drop_na(all_of(c(strata_level, strata_vars))) |> 
     dplyr::group_by_at(c(strata_level, strata_vars)) |> 
     dplyr::summarise(weighted_count = sum(.data[[weight_var]], na.rm = TRUE)) |> 
