@@ -1,6 +1,6 @@
 #' Glimpse Data Frame with Frequency Tables
 #'
-#' This function provides an overview of a data frame similar to `glimpse()`, but with added frequency tables for character and factor columns. 
+#' This function provides an overview of a data frame similar to `dplyr::glimpse()`, but with added frequency tables for character and factor columns. 
 #' It displays the number of rows and columns, as well as the first few most frequent values for character or factor columns.
 #'
 #' @param df A data frame to be summarized.
@@ -42,13 +42,6 @@ glimpse_with_table <- function(df, n_values = 5) {
     cat("\n")
   }
 }
-
-df <- data.frame(
-  x = sample(c("A", "B", "C", NA), size = 100, replace = TRUE),
-  y = sample(c("D", "E", "F"), size = 100, replace = TRUE)
-)
-glimpse_with_table(df)
-
 
 
 #' Top-Down Factor Analysis

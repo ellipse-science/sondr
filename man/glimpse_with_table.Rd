@@ -15,7 +15,7 @@ glimpse_with_table(df, n_values = 5)
 No return value, called for side effects (printing the data frame structure and summaries).
 }
 \description{
-This function provides an overview of a data frame similar to `glimpse()`, but with added frequency tables for character and factor columns. 
+This function provides an overview of a data frame similar to `dplyr::glimpse()`, but with added frequency tables for character and factor columns. 
 It displays the number of rows and columns, as well as the first few most frequent values for character or factor columns.
 }
 \details{
