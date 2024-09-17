@@ -28,21 +28,22 @@ glimpse_with_table <- function(df, n_values = 5) {
   cat("Rows:", n_rows, "\n")
   cat("Columns:", ncol(df), "\n")
 
+  table_list <- mapply(table, df, SIMPLIFY = FALSE)
+
   for (col in names(df)) {
     nas <- sum(is.na(df[[col]]))
     pct_missing <- round(nas / n_rows * 100, 1)
     if (pct_missing > 0){
-      cat("$ ", col, " <", class(df[[col]]), "> [", pct_missing, "% missing", "]", sep = "")
+      cat("$ ", col, " <", class(df[[col]]), "> [", pct_missing, "% missing", "] ", sep = "")
     } else {
       cat("$ ", col, " <", class(df[[col]]), "> ", sep = "")
     }
     end <- ifelse(length(table(df[[col]])) > n_values, n_values, length(table(df[[col]])))
     # Utilise table pour afficher les fréquences des valeurs
-    cat(paste0("[", names(table(df[[col]])[1:end]), "=", table(df[[col]])[1:end], "]", collapse = " "))
+    cat(paste0("[", names(table_list[[col]][1:end]), "=", table_list[[col]][1:end], "]", collapse = " "))
     cat("\n")
   }
 }
-
 
 #' Top-Down Factor Analysis
 #'
