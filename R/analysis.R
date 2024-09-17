@@ -24,6 +24,9 @@
 #' @export
 glimpse_with_table <- function(df, n_values = 5) {
   n_rows <- nrow(df)
+  if (n_rows > 1000000){
+    message("This is a large dataset... Be patient because it make take a little while")
+  }
   cat("\n")
   cat("Rows:", n_rows, "\n")
   cat("Columns:", ncol(df), "\n")
