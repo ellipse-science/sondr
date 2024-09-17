@@ -23,18 +23,31 @@
 #'
 #' @export
 glimpse_with_table <- function(df, n_values = 5) {
+  n_rows <- nrow(df)
   cat("\n")
-  cat("Rows:", nrow(df), "\n")
+  cat("Rows:", n_rows, "\n")
   cat("Columns:", ncol(df), "\n")
 
   for (col in names(df)) {
-    cat("$ ", col, " <", class(df[[col]]), "> ", sep = "")
+    nas <- sum(is.na(df[[col]]))
+    pct_missing <- round(nas / n_rows * 100, 1)
+    if (pct_missing > 0){
+      cat("$ ", col, " <", class(df[[col]]), "> [", pct_missing, "% missing", "]", sep = "")
+    } else {
+      cat("$ ", col, " <", class(df[[col]]), "> ", sep = "")
+    }
     end <- ifelse(length(table(df[[col]])) > n_values, n_values, length(table(df[[col]])))
     # Utilise table pour afficher les fréquences des valeurs
     cat(paste0("[", names(table(df[[col]])[1:end]), "=", table(df[[col]])[1:end], "]", collapse = " "))
     cat("\n")
   }
 }
+
+df <- data.frame(
+  x = sample(c("A", "B", "C", NA), size = 100, replace = TRUE),
+  y = sample(c("D", "E", "F"), size = 100, replace = TRUE)
+)
+glimpse_with_table(df)
 
 
 
