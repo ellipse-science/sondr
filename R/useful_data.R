@@ -13,6 +13,5 @@
 #' @docType data
 #' @name us_counties_data
 #' @keywords datasets
-#' @export
 #'
 "us_counties_data"
