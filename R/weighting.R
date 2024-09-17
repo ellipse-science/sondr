@@ -17,8 +17,7 @@ stratification_table <- function(data, strata_level = "ses_state", strata_vars, 
     tidyr::drop_na(all_of(c(strata_level, strata_vars))) |> 
     dplyr::group_by_at(c(strata_level, strata_vars)) |> 
     dplyr::summarise(weighted_count = sum(.data[[weight_var]], na.rm = TRUE)) |> 
-    dplyr::ungroup() |> 
+    dplyr::group_by_at(strata_level) |> 
     dplyr::mutate(proportion = weighted_count / sum(weighted_count))
-  
   return(stratified_table)
 }
