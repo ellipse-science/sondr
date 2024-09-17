@@ -28,15 +28,10 @@ glimpse_with_table <- function(df, n_values = 5) {
   cat("Columns:", ncol(df), "\n")
 
   for (col in names(df)) {
-    cat("$", col, " <", class(df[[col]]), "> ", sep = "")
-    if (is.character(df[[col]]) || is.factor(df[[col]])) {
-      end <- ifelse(length(table(df[[col]])) > n_values, n_values, length(table(df[[col]])))
-      # Utilise table pour afficher les fréquences des valeurs
-      cat(paste0("[", names(table(df[[col]])[1:end]), "=", table(df[[col]])[1:end], "]", collapse = " "))
-    } else {
-      # Si ce n'est pas une colonne de type facteur ou caractère
-      cat(head(df[[col]]))
-    }
+    cat("$ ", col, " <", class(df[[col]]), "> ", sep = "")
+    end <- ifelse(length(table(df[[col]])) > n_values, n_values, length(table(df[[col]])))
+    # Utilise table pour afficher les fréquences des valeurs
+    cat(paste0("[", names(table(df[[col]])[1:end]), "=", table(df[[col]])[1:end], "]", collapse = " "))
     cat("\n")
   }
 }
