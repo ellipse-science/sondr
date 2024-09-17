@@ -1,3 +1,48 @@
+#' Glimpse Data Frame with Frequency Tables
+#'
+#' This function provides an overview of a data frame similar to `glimpse()`, but with added frequency tables for character and factor columns. 
+#' It displays the number of rows and columns, as well as the first few most frequent values for character or factor columns.
+#'
+#' @param df A data frame to be summarized.
+#' @param n_values Integer. The number of unique values to display for character or factor columns. Default is 5.
+#'
+#' @details
+#' For each column, the function prints the column name, its data type, and a brief summary of its contents. 
+#' For character or factor columns, it displays the frequency of the most common `n_values` values. 
+#' For other column types, it displays the first few values using `head()`.
+#'
+#' @return No return value, called for side effects (printing the data frame structure and summaries).
+#' @export
+#' 
+#' @examples
+#' df <- data.frame(
+#'   x = sample(c("A", "B", "C"), size = 100, replace = TRUE),
+#'   y = sample(c("D", "E", "F"), size = 100, replace = TRUE)
+#' )
+#' glimpse_with_table(df)
+#'
+#' @export
+glimpse_with_table <- function(df, n_values = 5) {
+  cat("\n")
+  cat("Rows:", nrow(df), "\n")
+  cat("Columns:", ncol(df), "\n")
+
+  for (col in names(df)) {
+    cat("$", col, " <", class(df[[col]]), "> ", sep = "")
+    if (is.character(df[[col]]) || is.factor(df[[col]])) {
+      end <- ifelse(length(table(df[[col]])) > n_values, n_values, length(table(df[[col]])))
+      # Utilise table pour afficher les fréquences des valeurs
+      cat(paste0("[", names(table(df[[col]])[1:end]), "=", table(df[[col]])[1:end], "]", collapse = " "))
+    } else {
+      # Si ce n'est pas une colonne de type facteur ou caractère
+      cat(head(df[[col]]))
+    }
+    cat("\n")
+  }
+}
+
+
+
 #' Top-Down Factor Analysis
 #'
 #' Performs a top-down factor analysis on a given data frame, computes Cronbach's alpha for reliability, conducts a factor analysis to extract the loadings of the first factor, and plots the factor loadings along with annotations for Cronbach's alpha and the first eigenvalue.
