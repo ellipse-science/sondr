@@ -9,6 +9,7 @@
 #' @param weight_var A string representing the column name of the weights to be used (e.g., "PERWT").
 #'
 #' @return A data frame with stratified weighted counts and proportion in the strata_level.
+#' @export
 #' @examples
 #' stratification_table(census_data, "ses_state", c("ses_gender", "ses_age_group", "ses_ownership"), "weight")
 stratification_table <- function(data, strata_level = "ses_state", strata_vars, weight_var = "weight") {
