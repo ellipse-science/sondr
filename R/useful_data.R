@@ -10,6 +10,7 @@
 #' }
 #'
 #' @usage data(us_counties_data)
+#' @export
 #' @docType data
 #' @name us_counties_data
 #' @keywords datasets
