@@ -16,12 +16,12 @@
 #' parse_money_range("$15,000 or over", limit = "ceiling", ceiling_increment = 30000)
 #'
 #' @export
-parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment = 10000){
+parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment = 10000) {
   # Vérifier que les arguments sont valides
   if (!is.null(limit) && !limit %in% c("floor", "ceiling")) {
     stop("Invalid limit. Must be 'floor', 'ceiling', or NULL.")
   }
-  if (is.null(limit)){
+  if (is.null(limit)) {
     if (is.null(sep)) {
       stop("sep must be provided if limit is NULL")
     }
@@ -29,9 +29,9 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
     output <- as.numeric(gsub("[^0-9-]", "", split))
   } else {
     num <- as.numeric(gsub("[^0-9-]", "", value))
-    if (limit == "floor"){
+    if (limit == "floor") {
       output <- c(0, as.numeric(gsub("[^0-9-]", "", value)))
-    } else if (limit == "ceiling"){
+    } else if (limit == "ceiling") {
       num <- as.numeric(gsub("[^0-9-]", "", value))
       output <- c(num, num + ceiling_increment)
     }
@@ -61,7 +61,7 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
 #' data_clean$comp_sante_focus_attention_present <- clean_likert_numeric_vector(data_raw$autogestion_1)
 #'
 #' @export
-clean_likert_numeric_vector <- function(raw_vector){
+clean_likert_numeric_vector <- function(raw_vector) {
   clean_vector <- (raw_vector - 1) / (length(table(raw_vector)) - 1)
   return(clean_vector)
 }
@@ -80,10 +80,10 @@ clean_likert_numeric_vector <- function(raw_vector){
 #'
 #' @examples
 #' finverser(c(1, 2, 3, 2, 1)) # Returns c(3, 2, 1, 2, 3)
-#' finverser(c(10, 20, 30))    # Returns c(30, 20, 10)
+#' finverser(c(10, 20, 30)) # Returns c(30, 20, 10)
 #'
 #' @export
-finverser <- function(vec_col){
+finverser <- function(vec_col) {
   # Extract unique and non-NA values from the input vector
   unique_col <- unique(vec_col)
   unique_col <- unique_col[!is.na(unique_col)]
@@ -97,7 +97,7 @@ finverser <- function(vec_col){
   rev <- rev(ord)
 
   # Replace each value in the input vector with its inverted counterpart
-  for (i in 1:n){
+  for (i in 1:n) {
     vec_col[vec_col == ord[i]] <- max + rev[i]
   }
 
@@ -135,19 +135,21 @@ sav_to_codebook <- function(data) {
   var_names <- names(data)
 
   # Initialize the codebook data frame
-  codebook <- data.frame(variable_name = var_names,
-                         question = rep(NA, length(var_names)),
-                         answers = rep(NA, length(var_names)),
-                         stringsAsFactors = FALSE)
+  codebook <- data.frame(
+    variable_name = var_names,
+    question = rep(NA, length(var_names)),
+    answers = rep(NA, length(var_names)),
+    stringsAsFactors = FALSE
+  )
 
   # Loop through each variable in the dataset
   for (i in 1:length(var_names)) {
     # Extract the question label, use NA or a placeholder if not available
     question <- attr(data[[var_names[i]]], "label")
     if (is.null(question) || length(question) == 0) {
-      question <- NA  # Or use something like "No label available"
+      question <- NA # Or use something like "No label available"
     } else if (length(question) > 1) {
-      question <- question[1]  # Take only the first item if there are multiple
+      question <- question[1] # Take only the first item if there are multiple
     }
 
     # Extract answer choices and concatenate them into a single string
@@ -155,7 +157,7 @@ sav_to_codebook <- function(data) {
     if (!is.null(answer_choices) && length(answer_choices) > 0) {
       answers_str <- paste(names(answer_choices), answer_choices, sep = ": ", collapse = "; ")
     } else {
-      answers_str <- NA  # Use NA for variables without answer choices
+      answers_str <- NA # Use NA for variables without answer choices
     }
 
     # Update the codebook data frame
@@ -201,7 +203,7 @@ codebook_to_catalog <- function(data, filename, title) {
   con <- file(filename, "w")
 
   # Write questions and answers to the markdown file
-  cat("# ",paste0(title), "\n", file = con)
+  cat("# ", paste0(title), "\n", file = con)
 
   for (i in 1:nrow(data)) {
     cat(paste0("\n", i, ". ", data[i, "question"], "\n"), file = con)
@@ -220,7 +222,7 @@ codebook_to_catalog <- function(data, filename, title) {
 }
 #' Min-Max Normalization
 #'
-#' This function performs min-max normalization on a numeric vector. 
+#' This function performs min-max normalization on a numeric vector.
 #' It scales the values to a range between 0 and 1.
 #'
 #' @param x A numeric vector to be normalized.
@@ -236,10 +238,11 @@ min_max_normalization <- function(x) {
   }
   min_val <- min(x, na.rm = TRUE)
   max_val <- max(x, na.rm = TRUE)
-  
+
   if (min_val == max_val) {
-    stop("Cannot normalize a vector with all identical values")
+    # Return the original value for all elements if they're identical
+    return(rep(min_val, length(x)))
   }
-  
+
   return((x - min_val) / (max_val - min_val))
 }
