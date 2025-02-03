@@ -23,6 +23,19 @@
 #'
 #' @export
 glimpse_with_table <- function(df, n_values = 5) {
+  
+  # Function to generate colored text based on missing percentage
+  colorize_missing <- function(pct_missing) {
+    # Scale the percentage to 0–255 for red intensity
+    intensity <- round(255 * (pct_missing / 100))
+    # Ensure it stays within valid range
+    intensity <- ifelse(intensity > 255, 255, ifelse(intensity < 0, 0, intensity))
+    # Generate ANSI escape code for RGB color
+    color <- sprintf("\033[38;2;%d;0;0m", intensity)  # Red color only
+    reset <- "\033[0m"  # Reset color
+    paste0(color, pct_missing, "% missing", reset)
+  }
+
   n_rows <- nrow(df)
   if (n_rows > 1000000){
     message("This is a large dataset... Be patient because it make take a little while")
@@ -37,7 +50,8 @@ glimpse_with_table <- function(df, n_values = 5) {
     nas <- sum(is.na(df[[col]]))
     pct_missing <- round(nas / n_rows * 100, 1)
     if (pct_missing > 0){
-      cat("$ ", col, " <", class(df[[col]]), "> [", pct_missing, "% missing", "] ", sep = "")
+      missing_message <- colorize_missing(pct_missing)
+      cat("$ ", col, " <", class(df[[col]]), "> [", missing_message, "] ", sep = "")
     } else {
       cat("$ ", col, " <", class(df[[col]]), "> ", sep = "")
     }
@@ -113,6 +127,7 @@ topdown_fa <- function(df, nfactors = 1) {
 
   return(result)
 }
+
 #' Check and Report Missing Values in DataFrame Columns
 #'
 #' This function processes a DataFrame, typically sourced from a Qualtrics .sav file, to identify and quantify
