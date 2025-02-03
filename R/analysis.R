@@ -189,7 +189,7 @@ qualtrics_na_counter <- function(data) {
   plot <- ggplot(data = filter(data_na_results, na_percentage > 0), aes(x = reorder(variable, na_percentage), y = na_percentage)) +
     geom_bar(stat = "identity", fill = "#e923c8") +
     coord_flip() +
-    clessnize::theme_clean_dark() +
+    theme_classic() +
     labs(x = "Groupe de variable", y = "Pourcentage de données manquantes",
          title = "Pourcentage de données manquantes \npar groupe de variable")
 
