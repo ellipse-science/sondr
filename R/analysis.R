@@ -77,6 +77,7 @@ glimpse_with_table <- function(df, n_values = 5) {
 #' @importFrom psych alpha
 #' @importFrom ggplot2 ggplot aes coord_flip geom_bar geom_text geom_hline annotate scale_y_continuous theme_linedraw theme element_text margin
 topdown_fa <- function(df, nfactors = 1) {
+  # Y'a un peu de deepseek la dedans <3 
   # Check if the input is a dataframe
   if (!is.data.frame(df)) {
     stop("Error: Argument 'df' must be a dataframe")
@@ -87,11 +88,24 @@ topdown_fa <- function(df, nfactors = 1) {
 
   # Conduct factor analysis with the specified number of factors
   factAnalysis <- factanal(df, factors = nfactors)
-  factorVarNames <- names(df)
+  
+  # Custom function to wrap text manually
+  wrap_text <- function(text, width) {
+    sapply(text, function(t) {
+      # Split the text into chunks of 'width' characters
+      chunks <- strsplit(t, paste0("(?<=.{", width, "})"), perl = TRUE)[[1]]
+      # Combine chunks with '\n'
+      paste(chunks, collapse = "\n")
+    }, USE.NAMES = FALSE)
+  }
+  
+  # Apply the custom wrapping function to variable names
+  factorVarNames <- wrap_text(names(df), width = 15)
+  
   factorLoadings <- as.numeric(factAnalysis$loadings[, 1])
   factor1stEigen <- round(eigen(cor(df))$values[1], 2)
 
-  # Create a plot of factor loadings
+  # Create a plot of factor loadings with wrapped names
   FAplot <- ggplot2::ggplot(data.frame(factorVarNames, factorLoadings), ggplot2::aes(x = factorVarNames, y = factorLoadings)) +
     ggplot2::coord_flip() +
     ggplot2::geom_bar(stat = "identity", colour = "black", fill = "black", size = 1, width = 0.5) +
@@ -127,7 +141,6 @@ topdown_fa <- function(df, nfactors = 1) {
 
   return(result)
 }
-
 #' Check and Report Missing Values in DataFrame Columns
 #'
 #' This function processes a DataFrame, typically sourced from a Qualtrics .sav file, to identify and quantify
