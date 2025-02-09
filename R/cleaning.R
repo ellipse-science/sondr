@@ -246,3 +246,29 @@ min_max_normalization <- function(x) {
 
   return((x - min_val) / (max_val - min_val))
 }
+
+
+#' Rename Data Frame Columns to Snake Case
+#'
+#' This function renames the columns of a data frame to snake_case.
+#' It uses the \code{\link{dplyr::rename_with}} function and a regular expression to
+#' insert underscores between words.
+#'
+#' @param df A data frame whose columns are to be renamed.
+#' @return A data frame with the same structure as the input, but with snake_case
+#'         column names.
+#' 
+#' 
+#' @examples
+#' df <- data.frame(FirstName = c("John", "Jane"), LastName = c("Doe", "Smith"))
+#' rename_snakecase(df)
+#' #   first_name last_name
+#' # 1       John       Doe
+#' # 2       Jane     Smith
+#' 
+#' @export
+#' 
+rename_snakecase <- function(df) {
+  df |>
+    dplyr::rename_with(~ gsub("([a-z])([A-Z])", "\\1_\\L\\2", ., perl = TRUE) |> tolower())
+}

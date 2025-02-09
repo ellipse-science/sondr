@@ -13,7 +13,7 @@ min_max_normalization(x)
 A numeric vector with values scaled between 0 and 1.
 }
 \description{
-This function performs min-max normalization on a numeric vector. 
+This function performs min-max normalization on a numeric vector.
 It scales the values to a range between 0 and 1.
 }
 \examples{
