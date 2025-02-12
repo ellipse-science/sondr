@@ -149,8 +149,6 @@ topdown_fa <- function(df, nfactors = 1) {
 #' count and percentage of missing data per group. It also generates a bar plot displaying the percentage of
 #' missing data for variable groups where the percentage is greater than zero.
 #'
-#' This function requires the package clessnize, which is not available on CRAN but can be installed from GitHub. To install clessnize, run:
-#' \code{devtools::install_github("clessn/clessnize")}
 #'
 #' @param data A DataFrame containing the data to be analyzed for missing values.
 #'
