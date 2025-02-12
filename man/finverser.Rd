@@ -20,6 +20,6 @@ It's useful for transforming data in a way that preserves the relative magnitude
 }
 \examples{
 finverser(c(1, 2, 3, 2, 1)) # Returns c(3, 2, 1, 2, 3)
-finverser(c(10, 20, 30))    # Returns c(30, 20, 10)
+finverser(c(10, 20, 30)) # Returns c(30, 20, 10)
 
 }
