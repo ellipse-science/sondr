@@ -167,8 +167,64 @@ sav_to_codebook <- function(data) {
 
   return(codebook)
 }
-
-
+#' Convert Data to Quarto Markdown Catalog
+#'
+#' This function converts data containing questions and answers into a Quarto Markdown catalog.
+#'
+#' @param data A data frame containing questions and answers.
+#' @param filename The filename of the Quarto Markdown file to be created.
+#' @param title The title of the Quarto Markdown catalog.
+#'
+#' @details This function takes a data frame where each row represents a question with
+#' associated answers and converts it into a Quarto Markdown file with a specified title.
+#' Each question is numbered and listed along with its associated answers and original variable name.
+#'
+#' @examples
+#' # Sample data frame
+#' data <- data.frame(
+#'   question = c("What is your favorite color?", "What is your favorite food?"),
+#'   answers = c("Red;Blue;Green", "Pizza;Sushi;Burger"),
+#'   variable_name = c("fav_color", "fav_food")
+#' )
+#'
+#' # Convert data to Quarto Markdown catalog
+#' codebook_to_qmd(data, "catalog.qmd", "Survey Catalog")
+#'
+#' @export
+#'
+#' @seealso Other data conversion functions: \code{\link{read_survey}}
+#'
+#' @keywords file manipulation
+#' @keywords internal
+codebook_to_qmd <- function(data, filename, title) {
+  # Open the markdown file for writing
+  con <- file(filename, "w")
+  
+  # Write YAML header
+  cat("---\nformat: pdf\n---\n\n", file = con)
+  
+  # Write title
+  cat("# ", paste0(title), "\n", file = con)
+  
+  # Write questions and answers to the markdown file
+  for (i in 1:nrow(data)) {
+    # Write question number, text, and variable name
+    cat(paste0("\n", i, ". ", data[i, "question"], 
+               " (Variable: ", data[i, "variable_name"], ")\n"), 
+        file = con)
+    
+    # Split the answers by semicolons
+    answers <- unlist(strsplit(as.character(data[i, "answers"]), ";"))
+    
+    # Write each answer as an itemized list
+    for (answer in answers) {
+      cat("     - ", answer, "\n", file = con)
+    }
+  }
+  
+  # Close the markdown file
+  close(con)
+}
 #' Convert Data to Markdown Catalog
 #'
 #' This function converts data containing questions and answers into a Markdown catalog.
