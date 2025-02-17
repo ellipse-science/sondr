@@ -2,6 +2,7 @@
 
 export(clean_likert_numeric_vector)
 export(codebook_to_catalog)
+export(codebook_to_qmd)
 export(extract_elements_with_prefix)
 export(find_quantile_range)
 export(finverser)
