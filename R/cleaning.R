@@ -48,6 +48,7 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
 #' for statistical analysis.
 #'
 #' @param raw_vector A numeric vector containing raw Likert scale responses.
+#' @param revert Logical. If TRUE, the scale is inverted (high values become low and vice versa). Default is FALSE.
 #' @return A numeric vector where each element is scaled to a 0-1 range.
 #' @examples
 #' # Example data
@@ -57,12 +58,21 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
 #' clean_data <- clean_likert_numeric_vector(raw_data)
 #' print(clean_data)
 #'
+#' # Clean with reversed scale (5 becomes 0, 1 becomes 1)
+#' clean_data_rev <- clean_likert_numeric_vector(raw_data, revert = TRUE)
+#' print(clean_data_rev)
+#'
 #' # Applying it to a data frame column example
 #' data_clean$comp_sante_focus_attention_present <- clean_likert_numeric_vector(data_raw$autogestion_1)
 #'
 #' @export
-clean_likert_numeric_vector <- function(raw_vector) {
-  clean_vector <- (raw_vector - 1) / (length(table(raw_vector)) - 1)
+clean_likert_numeric_vector <- function(raw_vector, revert = FALSE) {
+  n_levels <- length(table(raw_vector)) - 1
+  if (revert) {
+    clean_vector <- (n_levels - (raw_vector - 1)) / n_levels
+  } else {
+    clean_vector <- (raw_vector - 1) / n_levels
+  }
   return(clean_vector)
 }
 
