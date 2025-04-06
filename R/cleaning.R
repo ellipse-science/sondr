@@ -69,9 +69,9 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
 clean_likert_numeric_vector <- function(raw_vector, revert = FALSE) {
   n_levels <- length(table(raw_vector)) - 1
   if (revert) {
-    clean_vector <- (n_levels - (raw_vector - 1)) / n_levels
+    clean_vector <- round((n_levels - (raw_vector - 1)) / n_levels, 2)
   } else {
-    clean_vector <- (raw_vector - 1) / n_levels
+    clean_vector <- round((raw_vector - 1) / n_levels, 2)
   }
   return(clean_vector)
 }
