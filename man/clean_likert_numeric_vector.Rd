@@ -4,13 +4,17 @@
 \alias{clean_likert_numeric_vector}
 \title{Clean Likert Numeric Vector}
 \usage{
-clean_likert_numeric_vector(raw_vector)
+clean_likert_numeric_vector(raw_vector, revert = FALSE, na_values = NULL)
 }
 \arguments{
 \item{raw_vector}{A numeric vector containing raw Likert scale responses.}
+
+\item{revert}{Logical. If TRUE, the scale is inverted (high values become low and vice versa). Default is FALSE.}
+
+\item{na_values}{A numeric value or vector of values in raw_vector to be assigned NA. Default is NULL.}
 }
 \value{
-A numeric vector where each element is scaled to a 0-1 range.
+A numeric vector where each element is scaled to a 0-1 range, with specified values as NA.
 }
 \description{
 Transforms raw Likert scale responses into a normalized numeric vector.
@@ -25,6 +29,14 @@ raw_data <- c(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)
 # Clean the data using clean_likert_numeric_vector
 clean_data <- clean_likert_numeric_vector(raw_data)
 print(clean_data)
+
+# Clean with reversed scale (5 becomes 0, 1 becomes 1)
+clean_data_rev <- clean_likert_numeric_vector(raw_data, revert = TRUE)
+print(clean_data_rev)
+
+# Assign 3 as NA
+clean_data_na <- clean_likert_numeric_vector(raw_data, na_values = 3)
+print(clean_data_na)
 
 # Applying it to a data frame column example
 data_clean$comp_sante_focus_attention_present <- clean_likert_numeric_vector(data_raw$autogestion_1)

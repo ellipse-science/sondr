@@ -49,7 +49,8 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
 #'
 #' @param raw_vector A numeric vector containing raw Likert scale responses.
 #' @param revert Logical. If TRUE, the scale is inverted (high values become low and vice versa). Default is FALSE.
-#' @return A numeric vector where each element is scaled to a 0-1 range.
+#' @param na_values A numeric value or vector of values in raw_vector to be assigned NA. Default is NULL.
+#' @return A numeric vector where each element is scaled to a 0-1 range, with specified values as NA.
 #' @examples
 #' # Example data
 #' raw_data <- c(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)
@@ -62,12 +63,17 @@ parse_money_range <- function(value, sep = NULL, limit = NULL, ceiling_increment
 #' clean_data_rev <- clean_likert_numeric_vector(raw_data, revert = TRUE)
 #' print(clean_data_rev)
 #'
+#' # Assign 3 as NA
+#' clean_data_na <- clean_likert_numeric_vector(raw_data, na_values = 3)
+#' print(clean_data_na)
+#'
 #' # Applying it to a data frame column example
 #' data_clean$comp_sante_focus_attention_present <- clean_likert_numeric_vector(data_raw$autogestion_1)
 #'
 #' @export
-clean_likert_numeric_vector <- function(raw_vector, revert = FALSE) {
-  n_levels <- length(table(raw_vector)) - 1
+clean_likert_numeric_vector <- function(raw_vector, revert = FALSE, na_values = NULL) {
+  raw_vector[raw_vector %in% na_values] <- NA
+  n_levels <- length(table(raw_vector, useNA = "no")) - 1
   if (revert) {
     clean_vector <- round((n_levels - (raw_vector - 1)) / n_levels, 2)
   } else {
